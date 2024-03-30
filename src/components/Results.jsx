@@ -1,7 +1,11 @@
-import { calculateInvestmentResults, formatter } from "react";
+import { calculateInvestmentResults, formatter } from "../util/investment.js";
 
 export default function Results({ input }) {
-  // const
+  const resultsData = calculateInvestmentResults(input);
+  const initialInvestment =
+    resultsData[0].valueEndOfYear -
+    resultsData[0].annualInvestment * resultsData[0].year;
+
   return (
     <table id="result">
       <thead>
@@ -14,88 +18,22 @@ export default function Results({ input }) {
         </tr>
       </thead>
       <tbody>
-        <tr className="center">
-          <td>1</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-        </tr>
-        <tr className="center">
-          <td>2</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-        </tr>
-        <tr className="center">
-          <td>3</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-        </tr>
-        <tr className="center">
-          <td>4</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-        </tr>
-        <tr className="center">
-          <td>5</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-        </tr>
-        <tr className="center">
-          <td>6</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-        </tr>
-        <tr
-          className="center
-        "
-        >
-          <td>7</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-        </tr>
-        <tr
-          className="center
-        "
-        >
-          <td>8</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-        </tr>
-        <tr
-          className="center
-        "
-        >
-          <td>9</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-        </tr>
-        <tr
-          className="center
-        "
-        >
-          <td>10</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-          <td>100</td>
-        </tr>
+        {resultsData.map((yearData) => {
+          const totalInterst =
+            yearData.valueEndOfYear -
+            yearData.annualInvestment * yearData.year -
+            initialInvestment;
+          const totalAmmountInvested = yearData.valueEndOfYear - totalInterst;
+          return (
+            <tr key={yearData.year}>
+              <td>{yearData.year}</td>
+              <td>{formatter.format(yearData.valueEndOfYear)}</td>
+              <td>{formatter.format(yearData.interest)}</td>
+              <td>{formatter.format(totalInterst)}</td>
+              <td>{formatter.format(totalAmmountInvested)}</td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

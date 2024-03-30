@@ -12,12 +12,11 @@ function App() {
     duration: 0,
   });
 
-  function handleChange(identifier, value) {
-    console.log(identifier, value);
+  function handleChange(inputIdentifier, newValue) {
     setUserInput((preState) => {
       return {
         ...preState,
-        [identifier]: +value,
+        [inputIdentifier]: +newValue,
       };
     });
   }
@@ -31,7 +30,7 @@ function App() {
       {!inputIsValid && (
         <p className="center">Please enter a duration greater than zero!</p>
       )}
-      {inputIsValid && <Results />}
+      {inputIsValid && <Results input={userInput} />}
     </>
   );
 }
